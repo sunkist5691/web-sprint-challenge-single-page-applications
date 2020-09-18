@@ -17,10 +17,19 @@ const App = () => {
   return (
     <>
       <h1>Lambda Hut</h1>
-      <Link to='/'>Home</Link>
-      <Route exact path="/"><HomePage /></Route>
-      <Route path='/pizza'><Form addOrderList={addOrderList}/></Route>
 
+      <Link to='/'>Home</Link>
+      <Link to='/pizza/list'>Order List</Link>
+
+      <Route exact path="/">
+        <HomePage />
+      </Route>
+
+      <Route exact path='/pizza'>
+        <Form addOrderList={addOrderList}/>
+      </Route>
+
+      <Route path='/pizza/list'>
       {
         order.map( (eachOrder) => {
 
@@ -28,6 +37,7 @@ const App = () => {
 
         })
       }
+      </Route>
 
     </>
   );

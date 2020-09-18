@@ -9,24 +9,28 @@ const schema = yup.object().shape({
 
    size: yup
       .string()
-      .required('Email is required')
-      .min(1, 'Please select one of the option'),
+      .required('Must select the size')
+      .min(1, 'Please select one of the size'),
 
    firstTopping: yup
-      .string()
-      .min(1, 'Please select one of the option'),
+      .boolean()
+      .oneOf([true], 'Please choose 4 or more toppings'),
    
    secondTopping: yup
-      .string()
-      .min(1, 'Please select one of the option'),
+      .boolean()
+      .oneOf([true], 'Please choose 4 or more toppings'),
 
    thirdTopping: yup
-      .string()
-      .min(1, 'Please select one of the option'),
+      .boolean()
+      .oneOf([true], 'Please choose 4 or more toppings'), 
 
    fourthTopping: yup
-      .string()
-      .min(1, 'Please select one of the option'),
+      .boolean()
+      .oneOf([true], 'Please choose 4 or more toppings'),
+   
+   fifthTopping: yup
+      .boolean()
+      .oneOf([true], 'Please choose 4 or more toppings'),
 
    instruction: yup
       .string()

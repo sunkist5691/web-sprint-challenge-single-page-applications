@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const WrapInfo = styled.section `
@@ -14,17 +15,18 @@ const WrapInfo = styled.section `
 
 const OrderList = ({order}) => {
 
-   console.log(order.firstTopping)
    return (
-      <WrapInfo>
-         <p>{order.name}</p>
-         <p>{order.size}</p>
-         <p>{order.firstTopping}</p>
-         <p>{order.secondTopping}</p>
-         <p>{order.thirdTopping}</p>
-         <p>{order.fourthTopping}</p>
-         <p>{order.instruction}</p>
-      </WrapInfo>
+      <>
+         <WrapInfo>
+            <p>{order.name}</p>
+            <p>{order.size}</p>
+            <p>{order.firstTopping}</p>
+            <p>{order.secondTopping}</p>
+            <p>{order.thirdTopping}</p>
+            <p>{order.fourthTopping}</p>
+            <p>{order.instruction}</p>
+         </WrapInfo>
+      </>
    )
 
 }

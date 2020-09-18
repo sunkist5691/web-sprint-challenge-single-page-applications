@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import schema from './schema'
 import * as yup from 'yup'
 import axios from 'axios'
-import { Link , useParam } from 'react-router-dom'
 
 // Style Components
 const WrapForm = styled.form `
@@ -30,32 +29,23 @@ const Button = styled.button `
 
 const Form = ({addOrderList}) => {
 
-   // Order info state
-   const [orderInfo, setOrderInfo] = useState({
-
-      id: Date.now(),
-      name: '',
-      size: '',
-      firstTopping: '',
-      secondTopping: '',
-      thirdTopping: '',
-      fourthTopping: '',
-      instruction: '',
-
-   })
-
+   
    // Validate info State
    const [info, setInfo] = useState({
-
+      
       name: '',
       size: '',
       firstTopping: false,
       secondTopping: false,
       thirdTopping: false,
       fourthTopping: false,
+      fifthTopping: false,
       instruction: '',
-
+      
    })
+   
+   // Order info state
+   const [orderInfo, setOrderInfo] = useState(info)
 
    // Error State
    const [error, setError] = useState({
@@ -66,12 +56,13 @@ const Form = ({addOrderList}) => {
       secondTopping: '',
       thirdTopping: '',
       fourthTopping: '',
+      fifthTopping: '',
    })
 
    // Order button State
    const [disabled, setDisabled] = useState(true)
 
-   //Validation
+   // Validation
    const validation = (e, value) => {
 
       yup
@@ -94,29 +85,40 @@ const Form = ({addOrderList}) => {
 
    }
 
-   const clickCheck = (e) => {
+   const clickCheckBox = (e) => {
 
-      setOrderInfo({ ...info, [e.target.name]: e.target.id })
+      let value = e.target.type === 'checkbox' ? e.target.id : e.target.value
+
+      console.log(e.target.checked, e.target.type, e.target.name)
+
+      // if-else statement
+      if(e.target.type === 'checkbox' && e.target.checked === false){
+
+         setOrderInfo({ ...orderInfo, [e.target.name]: ''})
+
+      } else {
+
+         setOrderInfo({ ...orderInfo, [e.target.name]: value })
+
+      }
 
    }
 
    const changeHandler = (e) => {
       
-      // Check if the current targeting input is checkbox or not
       let value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-
-      // To make 'Synthetic Event asynchronously reusable, because React wraps native browser events into instances of the Synthetic Event
-      //https://medium.com/trabe/react-syntheticevent-reuse-889cd52981b6
-      //So this make possible that 'e' object from changeHandler reused at 'validation' as 'e' object.
+    
       e.persist()
-      
-      // Validation to check each input are following the required() statement.
+
       validation(e, value)
+      
+      // The checkbox will update their value into string in state 'orderInfo'
+      clickCheckBox(e)
 
       setInfo({ ...info, [e.target.name]: value })
 
    }
-   
+   console.log(orderInfo, info)
 
    // Function to reset and prevent default when submit the info
    const formSubmit = (e) => {
@@ -146,6 +148,7 @@ const Form = ({addOrderList}) => {
          secondTopping: false,
          thirdTopping: false,
          fourthTopping: false,
+         fifthTopping: false,
          instruction: '',
 
       })
@@ -157,7 +160,8 @@ const Form = ({addOrderList}) => {
       schema // schema is equal to 'yup.object().shape({...})'
          .isValid(info) // check the 'info' state and go over every 'key' and value to match with 'schema' key and value if fulfilled the restriction.
          .then((valid) => { // if the 'info' state doesn't give any errors when matching with 'schema', then returns 'true'
-         setDisabled(!valid); // because 'valid' returns true, we want to change the state of 'disabled' to false. 
+
+            setDisabled(!valid);
       });
 
    }, [info]);
@@ -175,7 +179,7 @@ const Form = ({addOrderList}) => {
                type='text'
                name='name' 
                placeholder='Name' 
-               onChange={changeHandler} 
+               onChange={changeHandler}
                value={info.name}
             />
             { error.name.length > 0 ? <Error>{error.name}</Error> : null /* show error message */}
@@ -187,7 +191,8 @@ const Form = ({addOrderList}) => {
             <select 
                id={info.size} 
                name='size' 
-               onChange={changeHandler} 
+               onChange={changeHandler}
+
                value={info.size}
             >
                <option value=''>---------select---------</option>
@@ -208,7 +213,6 @@ const Form = ({addOrderList}) => {
                name='firstTopping' 
                checked={info.firstTopping}
                onChange={changeHandler}
-               onClick={clickCheck}
             />
             { error.firstTopping.length > 0 ? <Error>{error.firstTopping}</Error> : null /* show error message */}
          </label>
@@ -221,7 +225,6 @@ const Form = ({addOrderList}) => {
                name='secondTopping' 
                checked={info.secondTopping}
                onChange={changeHandler}
-               onClick={clickCheck}
             />
             { error.secondTopping.length > 0 ? <Error>{error.secondTopping}</Error> : null /* show error message */}
          </label>
@@ -234,7 +237,6 @@ const Form = ({addOrderList}) => {
                name='thirdTopping' 
                checked={info.thirdTopping}
                onChange={changeHandler}
-               onClick={clickCheck}
             />
             { error.thirdTopping.length > 0 ? <Error>{error.thirdTopping}</Error> : null /* show error message */}
          </label>
@@ -247,9 +249,20 @@ const Form = ({addOrderList}) => {
                name='fourthTopping' 
                checked={info.fourthTopping}
                onChange={changeHandler}
-               onClick={clickCheck}
             />
             { error.fourthTopping.length > 0 ? <Error>{error.fourthTopping}</Error> : null /* show error message */}
+         </label>
+
+         <label htmlFor='fifthTopping'>
+            Olive
+            <input
+               id='Olive' 
+               type='checkbox' 
+               name='fifthTopping' 
+               checked={info.fifthTopping}
+               onChange={changeHandler}
+            />
+            { error.fifthTopping.length > 0 ? <Error>{error.fifthTopping}</Error> : null /* show error message */}
          </label>
 
          {/* Name input */}
