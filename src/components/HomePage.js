@@ -7,7 +7,13 @@ const HomePage = () => {
 
    return (
       
-      <Link className="link" to='/pizza'>Start to order</Link>
+      <Link 
+         className="link" 
+         to='/pizza/order'
+         style={{ textDecoration: 'none', color: 'black', marginTop: '0.6rem'}}
+      >
+         Start to order
+      </Link>
    )
 
 }

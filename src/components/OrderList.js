@@ -4,14 +4,15 @@ import styled from 'styled-components'
 
 const WrapInfo = styled.section `
 
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    border: solid 2px black;
    border-radius: 0.7rem;
    width: 25%;
    margin: 2%;
 
 `
-
-
 
 const OrderList = ({order}) => {
 
@@ -30,6 +31,5 @@ const OrderList = ({order}) => {
    )
 
 }
-
 
 export default OrderList

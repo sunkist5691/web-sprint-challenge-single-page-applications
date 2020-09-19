@@ -10,6 +10,7 @@ const WrapForm = styled.form `
    display: flex;
    flex-flow: column wrap;
    align-items: center;
+   margin-top: 1rem;
 
 `
 
@@ -26,10 +27,9 @@ const Button = styled.button `
 
 `
 
+// Component Form
+const Form = ({ addOrderList }) => {
 
-const Form = ({addOrderList}) => {
-
-   
    // Validate info State
    const [info, setInfo] = useState({
       
@@ -85,11 +85,10 @@ const Form = ({addOrderList}) => {
 
    }
 
+   // This function expression updates 'orderInfo' state in a string
    const clickCheckBox = (e) => {
 
       let value = e.target.type === 'checkbox' ? e.target.id : e.target.value
-
-      console.log(e.target.checked, e.target.type, e.target.name)
 
       // if-else statement
       if(e.target.type === 'checkbox' && e.target.checked === false){
@@ -112,13 +111,13 @@ const Form = ({addOrderList}) => {
 
       validation(e, value)
       
-      // The checkbox will update their value into string in state 'orderInfo'
+      // The checkbox will update 'orderInfo' state into string
       clickCheckBox(e)
 
+      // This state will need for validation for error
       setInfo({ ...info, [e.target.name]: value })
 
    }
-   console.log(orderInfo, info)
 
    // Function to reset and prevent default when submit the info
    const formSubmit = (e) => {
@@ -137,8 +136,6 @@ const Form = ({addOrderList}) => {
             console.log(err)
          })
 
-      // Add info to User list
-
       //Resets
       setInfo({
 
@@ -155,12 +152,13 @@ const Form = ({addOrderList}) => {
 
       
    }
+
+   // Check validation the 'info' state in order to enable 'order' button
    useEffect(() => {
 
       schema // schema is equal to 'yup.object().shape({...})'
          .isValid(info) // check the 'info' state and go over every 'key' and value to match with 'schema' key and value if fulfilled the restriction.
          .then((valid) => { // if the 'info' state doesn't give any errors when matching with 'schema', then returns 'true'
-
             setDisabled(!valid);
       });
 
@@ -171,8 +169,11 @@ const Form = ({addOrderList}) => {
 
       <WrapForm onSubmit={ formSubmit }>
 
-         {/* Name input */}
-         <label htmlFor='name'>
+   {/* Name input */}
+         <label 
+            htmlFor='name'
+            style={{marginBottom: '0.6rem'}}
+         >
             Name
             <input 
                id={info.name} 
@@ -185,8 +186,11 @@ const Form = ({addOrderList}) => {
             { error.name.length > 0 ? <Error>{error.name}</Error> : null /* show error message */}
          </label>
 
-         {/* Size input */}
-         <label htmlFor='size'>
+   {/* Size input */}
+         <label 
+            htmlFor='size'
+            style={{marginBottom: '0.6rem'}}
+         >
             Choose size:
             <select 
                id={info.size} 
@@ -204,7 +208,7 @@ const Form = ({addOrderList}) => {
             </select>
          </label>
 
-         {/* Checkbox input */}
+   {/* Checkbox input */}
          <label htmlFor='firstTopping'>
             Sausage
             <input
@@ -265,8 +269,11 @@ const Form = ({addOrderList}) => {
             { error.fifthTopping.length > 0 ? <Error>{error.fifthTopping}</Error> : null /* show error message */}
          </label>
 
-         {/* Name input */}
-         <label htmlFor='instruction'>
+   {/* Name input */}
+         <label 
+            htmlFor='instruction'
+            style={{marginTop: '0.6rem', marginBottom: '0.6rem'}}
+         >
             Add Memo
             <textarea 
                id={info.instruction}
@@ -278,8 +285,13 @@ const Form = ({addOrderList}) => {
             />
          </label>
 
-         {/* Submit button */}
-         <Button disabled={disabled} type='submit'>Order</Button>
+   {/* Submit button */}
+         <Button 
+            disabled={disabled} 
+            type='submit'
+         >
+            Order
+         </Button>
 
       </WrapForm>
    )

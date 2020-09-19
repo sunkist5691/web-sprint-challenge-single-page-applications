@@ -38,5 +38,4 @@ const schema = yup.object().shape({
 
 })
 
-
 export default schema
